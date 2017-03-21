@@ -12095,7 +12095,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>回答:</strong>第一个样本点类似于大型综合性超市，其进货量巨大，且对fresh类商品有很大的需求。第二个样本点类似于日用品零售商，其对grocery和detergents_paper有较高需求，但其他项需求较小。第三个样本点类似于小型便利店，其总体进货量较小，且grocery类商品进货量略微偏高。</p>
+<p><strong>回答:</strong>第一个样本点的Fresh项达到了统计数据的最大值，其余四项特征也远超数据平均值，其数值均超过了75%的样本点，由此推断应该是一家大型超市。第二个样本点的Milk, Grocery, Detergents_Paper和Delicatessen四项超过了平均值，其中，Milk, Grocery和Detergents_Paper也超过了75%的样本点，但Fresh和Frozen数量较小，远低于平均值，处于最低的25%样本点内，由此推断应该是日用品零售商。第三个样本点所有数据均远远小于样本集平均值，且均处于最低的25%样本点内，由此推断应该是小型咖啡馆。</p>
 
 </div>
 </div>
@@ -12122,7 +12122,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
@@ -12136,7 +12136,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO：为DataFrame创建一个副本，用&#39;drop&#39;函数丢弃一些指定的特征</span>
@@ -12144,7 +12144,7 @@ div#notebook {
 <span class="n">new_data</span> <span class="o">=</span> <span class="n">data_for_reg</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;Frozen&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># TODO：使用给定的特征作为目标，将数据分割成训练集和测试集</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">data_for_reg</span><span class="p">,</span> <span class="n">new_data</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">233</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="n">data_for_reg</span><span class="p">[</span><span class="s1">&#39;Frozen&#39;</span><span class="p">],</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">233</span><span class="p">)</span>
 
 <span class="c1"># TODO：创建一个DecisionTreeRegressor（决策树回归器）并在训练集上训练它</span>
 <span class="n">regressor</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">()</span>
@@ -12167,7 +12167,7 @@ div#notebook {
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>0.800048171329
+<pre>-1.89308505229
 </pre>
 </div>
 </div>
@@ -12192,7 +12192,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>回答:</strong>尝试预测了Frozen项特征，R^2得分约为0.800，是一个区分用户消费习惯的必要数据项。</p>
+<p><strong>回答:</strong>尝试预测了Frozen项特征，R^2得分约为-1.8931, 说明在排除Frozen项数据后，其他数据无法对Frozen项进行准确预测。也就说明了Frozen项可以提供额外的信息帮助其他数据进行预测。因此Frozen项为区分消费习惯的必要特征。</p>
 
 </div>
 </div>
@@ -20719,7 +20719,7 @@ Sample point 2 predicted to be in Cluster 1
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>回答：</strong>派送服务的周期受多种因素影响，例如商品的保质期限和客户商品的销售速度。我们不能假设派送服务的改变对所有客户影响一致。为了确定该服务对客户的影响，可以将客户按聚类分为两个群体从少到多分别开展A/B tests。然后再根据不同客户的反馈情况确定是否要改变派送服务周期。</p>
+<p><strong>回答：</strong>派送服务的周期受多种因素影响，例如商品的保质期限和客户商品的销售速度。我们不能假设派送服务的改变对所有客户影响一致。为了确定该服务对客户的影响，可以将客户按聚类分为两个群体从少到多分别开展A/B tests。然后再根据不同客户的反馈情况确定是否要改变派送服务周期。举例，对cluster 0中接近平均水平的客户进行抽样，改变派送服务策略并观察客户满意度，如果得到正面反馈就进一步向偏离平均值更大的客户进行推广，反之，则停止改变派送服务，维持原有服务。</p>
 
 </div>
 </div>
@@ -20791,7 +20791,7 @@ Sample point 2 predicted to be in Cluster 1
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>回答：</strong>使用cluster特征的分类预测结果更好，这说明通过非监督学习的聚类模型可以提供额外的信息，能够更好的协助监督学习的分类器进行预测。</p>
+<p><strong>回答：</strong>使用cluster特征的分类预测结果更好，这说明通过非监督学习的聚类模型可以提供额外的信息，能够更好的协助监督学习的分类器进行预测。在面对十个新客户时，可以将新客户的预估采购量纳入非监督学习框架中进行聚类分析，然后给新客户打上聚类预测的cluster结果后，再利用监督学习对新客户进行预测分析。并且，在新客户的实际采购量确定后，可以进一步更新数据，并再次进行聚类和监督学习分析。</p>
 
 </div>
 </div>
